@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:phone_dialer/StateHolder.dart';
 
 class PhoneDialer extends StatefulWidget {
+  static String routeName = "/phoneDialer";
+
   @override
   _PhoneDialerState createState() => _PhoneDialerState();
 }
@@ -11,8 +14,13 @@ class _PhoneDialerState extends State<PhoneDialer> {
   TextEditingController controller = new TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    controller.text = StateHolder.instance.phoneNumber;
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(

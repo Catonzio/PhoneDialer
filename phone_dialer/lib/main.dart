@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_dialer/PhoneDialer.dart';
+import 'package:phone_dialer/Register.dart';
 import 'package:phone_dialer/StateHolder.dart';
 import 'ContactsPage.dart';
 
@@ -25,7 +26,8 @@ class PageMain extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,
-        accentColor: Colors.amber
+        accentColor: Colors.amber,
+        primaryColor: Colors.black
       ),
     );
   }
@@ -56,7 +58,7 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin 
 
   @override
   void initState() {
-    controller = new TabController(length: tabs.length, vsync: this);
+    controller = new TabController(length: tabs.length, vsync: this, initialIndex: 1);
     super.initState();
   }
 
@@ -68,13 +70,14 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin 
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: TabBarView(
           controller: controller,
           //to disable the swipe between tabs
           physics: NeverScrollableScrollPhysics(),
           children: [
-            new Container(color: Theme.of(context).accentColor,),
+            new Register(),
             new PhoneDialer(),
             new ContactsPage(
               //contacts: StateHolder.instance.contacts

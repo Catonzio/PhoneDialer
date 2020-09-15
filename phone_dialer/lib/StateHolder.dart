@@ -19,4 +19,8 @@ class StateHolder {
     this.contacts = contacts.where((element) => element != null && element.displayName != null && element.displayName.isNotEmpty);
   }
 
+  void setText(String text) {
+    this.phoneNumber = text;
+  }
+
 }

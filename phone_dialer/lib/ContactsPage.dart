@@ -39,7 +39,23 @@ class _ContactsPageState extends State<ContactsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: (Text('Contacts')),
+        title: (
+          Padding(
+            child: Text(
+              'Contacts',
+              style: TextStyle(
+                decoration:
+                TextDecoration.underline,
+                height: 1.5,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Roboto-Regular',
+              ),
+            ),
+            padding: EdgeInsets.all(2),
+          )
+        ),
+        backgroundColor: Colors.black,
       ),
       body: StateHolder.instance.contacts != null
       //Build a list view of all contacts, displaying their avatar and
@@ -160,7 +176,7 @@ class _ContactsPageState extends State<ContactsPage> {
       return "";
   }
 
-  move(double value) {
+  move(double value)  {
     setState(() {
       index = value.toInt();
       _controller.jumpTo(index: value.toInt());

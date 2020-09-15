@@ -17,7 +17,7 @@ class CustomSliderThumbRectangle extends SliderComponentShape {
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size.fromRadius(40);
+    return Size.fromRadius(20);
   }
 
   @override
@@ -49,7 +49,7 @@ class CustomSliderThumbRectangle extends SliderComponentShape {
         //textDirection: TextDirection.ltr
     );
     tp.layout();
-    //Offset textCenter = Offset(center.dy - (tp.height / 2), - center.dx - (tp.width / 2));
+    Offset textCenter = Offset(center.dy - (tp.height / 2), - center.dx - (tp.width / 2));
 
     Paint paintRB;
     final RRect borderRectB = BorderRadius.circular(8).resolve(textDirection).toRRect(Rect.fromCenter(center: center, width: 30, height: 30));
@@ -67,13 +67,14 @@ class CustomSliderThumbRectangle extends SliderComponentShape {
     canvas.drawRRect(borderRectB, paintRB);
     canvas.drawRRect(borderRect, paintR);
 
-    Offset textCenter = Offset(center.dx - (tp.width/2), center.dy - (tp.height/2));
+    //Offset textCenter = Offset(center.dx - (tp.width/2), center.dy - (tp.height/2));
+    //canvas.rotate(1.5708);
+    //canvas.rotate(0);
+    //canvas.drawColor(Colors.red, BlendMode.colorBurn);
     //canvas.rotate(1.5708);
 
-    canvas.rotate(0);
-    //canvas.drawColor(Colors.red, BlendMode.colorBurn);
-    //canvas.rotate(-1.5708);
-
-    tp.paint(canvas, textCenter);
+    //canvas.translate(textCenter.dx, textCenter.dy);
+    //canvas.rotate(3.14159 * 3.0/2.0);
+    tp.paint(canvas, new Offset(center.dx - (tp.width/2), center.dy - (tp.height/2)));
   }
 }

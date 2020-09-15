@@ -21,7 +21,27 @@ class _PhoneDialerState extends State<PhoneDialer> {
 
   @override
   Widget build(BuildContext context) {
+    FocusScope.of(context).unfocus();
     return Scaffold(
+      appBar: AppBar(
+        title: (
+            Padding(
+              child: Text(
+                'Phone',
+                style: TextStyle(
+                  decoration:
+                  TextDecoration.underline,
+                  height: 1.5,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Roboto-Regular',
+                ),
+              ),
+              padding: EdgeInsets.all(2),
+            )
+        ),
+        backgroundColor: Colors.black,
+      ),
       backgroundColor: Colors.black,
       body: Center(
         child: Column(
@@ -70,7 +90,7 @@ class _PhoneDialerState extends State<PhoneDialer> {
                 crossAxisCount: 3,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  MaterialButton(),
+                  getDeleteAllButton(),
                   IconButton(
                     icon: Icon(Icons.phone, color: Colors.green, size: 50,),
                     onPressed: call3,
@@ -103,6 +123,22 @@ class _PhoneDialerState extends State<PhoneDialer> {
         onPressed: () {
           setState(() {
             controller.text = controller.text.substring(0, controller.text.length - 1);
+            StateHolder.instance.setText(controller.text);
+          });
+        },
+      );
+    else
+      return MaterialButton();
+  }
+
+  getDeleteAllButton() {
+    if(controller.text.isNotEmpty)
+      return IconButton(
+        icon: Icon(Icons.delete, color: Colors.red[900],),
+        onPressed: () {
+          setState(() {
+            controller.text = "";
+            StateHolder.instance.setText(controller.text);
           });
         },
       );

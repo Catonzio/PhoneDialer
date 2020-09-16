@@ -1,13 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Register extends StatefulWidget {
+class DefaultPage extends StatelessWidget {
 
-  @override
-  RegisterState createState() => RegisterState();
-}
+  final String title;
+  final Widget body;
 
-class RegisterState extends State<Register> {
+  DefaultPage(
+    {
+      Key key,
+      this.title,
+      this.body
+    }
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +21,7 @@ class RegisterState extends State<Register> {
         title: (
             Padding(
               child: Text(
-                'Register',
+                '$title',
                 style: TextStyle(
                   decoration:
                   TextDecoration.underline,
@@ -28,11 +34,28 @@ class RegisterState extends State<Register> {
               padding: EdgeInsets.all(2),
             )
         ),
-        backgroundColor: Colors.black,
+        //backgroundColor: Colors.black,
       ),
-      body: Container(
+      body: body,
+    );
+  }
 
-      ),
+}
+
+class CstmIconButton extends StatelessWidget {
+  final Icon icon;
+  final Function onPressed;
+
+  CstmIconButton({Key key,
+    this.icon,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: icon,
+      onPressed: onPressed
     );
   }
 

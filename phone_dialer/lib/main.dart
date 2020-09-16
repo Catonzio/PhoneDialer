@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:phone_dialer/PhoneDialer.dart';
-import 'package:phone_dialer/Register.dart';
-import 'package:phone_dialer/StateHolder.dart';
-import 'ContactsPage.dart';
+import 'package:phone_dialer/pages/PhoneDialer.dart';
+import 'package:phone_dialer/pages/Register.dart';
+import 'package:phone_dialer/helper/StateHolder.dart';
+//import 'file:///C:/Users/danil/Projects/flutter/PhoneDialer/phone_dialer/lib/helper/StateHolder.dart';
+//import 'helper/StateHolder.dart';
+import 'pages/ContactsPage.dart';
 
 void main() {
   runApp(PageMain());
@@ -70,6 +72,7 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin 
 
   @override
   Widget build(BuildContext context) {
+    //debugPrint("First build ${StateHolder.instance.contacts.length}");
 
     return Scaffold(
         body: TabBarView(
@@ -79,9 +82,7 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin 
           children: [
             new Register(),
             new PhoneDialer(),
-            new ContactsPage(
-              //contacts: StateHolder.instance.contacts
-            )
+            new ContactsPage(contacts: StateHolder.instance.contacts,)
           ],
         ),
         bottomNavigationBar: TabBar(

@@ -15,7 +15,7 @@ class StateHolder {
   Future<void> getContacts() async {
     //We already have permissions for contact when we get to this page, so we
     // are now just retrieving it
-    final Iterable<Contact> contacts = await ContactsService.getContacts();
+    Iterable<Contact> contacts = await ContactsService.getContacts();
     this.contacts = contacts.where((element) => element != null && element.displayName != null && element.displayName.isNotEmpty);
   }
 

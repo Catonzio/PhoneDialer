@@ -137,11 +137,12 @@ class _ContactsPageState extends State<ContactsPage> {
 
   selectNumber(Contact contact, BuildContext context) {
     List<String> numbers = Helper.getPhones(contact);
-    numbers.length >= 2 ?
-      showMyDialog(context, numbers)
-    :
-        StateHolder.instance.phoneNumber = numbers[0];
-    PageMain.mainPageKey.currentState.controller.animateTo(1);
+    if(numbers.length >=2) {
+      showMyDialog(context, numbers);
+    } else {
+      StateHolder.instance.phoneNumber = numbers[0];
+      PageMain.mainPageKey.currentState.controller.animateTo(1);
+    }
   }
 
   search() {
@@ -158,40 +159,43 @@ class _ContactsPageState extends State<ContactsPage> {
           continueText: "Ok",
           dialogTitle: "Select a number",
           body: Column(
-            children: getListOfRadios(numbers),
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: getListOfRadios(numbers),
+              )
+            ],
           ),
-          pressed: () => {
-            StateHolder.instance.phoneNumber = numbers[selectedRadio]
+          pressed: () {
+            StateHolder.instance.phoneNumber = numbers[selectedRadio];
+            Navigator.of(context).pop();
+            PageMain.mainPageKey.currentState.controller.animateTo(1);
           },
         );
       }
     );
   }
 
-  setSelectedRadio(int val) {
-    setState(() {
-      selectedRadio = val;
-    });
-  }
-
   getListOfRadios(List<String> numbers) {
-    List<Widget> widgets = List();
-    int indx = 0;
-    numbers.forEach((element) {
-      widgets.add(
-        Radio(
-          value: indx,
+    return ListView.builder(
+      itemCount: numbers.length,
+      itemBuilder: (context, index) {
+        return RadioListTile(
+          value: index,
           groupValue: selectedRadio,
+          title:  Text("${numbers[index]}"),
           activeColor: Colors.green,
           onChanged: (val) {
-            debugPrint("Radio $val");
-            setSelectedRadio(val);
+            debugPrint("Radio $val ciao");
+            setState(() {
+              selectedRadio = val;
+            });
+            //StateHolder.instance.phoneNumber = numbers[selectedRadio];
           },
-        )
-      );
-      indx++;
-    });
-    return widgets;
+        );
+      },
+    );
   }
 
 

@@ -152,6 +152,9 @@ class _ContactsPageState extends State<ContactsPage> {
   }
 
   void showMyDialog(BuildContext context, List<String> numbers) {
+    setState(() {
+      selectedRadio = 0;
+    });
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -180,6 +183,7 @@ class _ContactsPageState extends State<ContactsPage> {
   getListOfRadios(List<String> numbers) {
     return ListView.builder(
       itemCount: numbers.length,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return RadioListTile(
           value: index,
@@ -191,8 +195,10 @@ class _ContactsPageState extends State<ContactsPage> {
             setState(() {
               selectedRadio = val;
             });
+            debugPrint("Selected: $selectedRadio");
             //StateHolder.instance.phoneNumber = numbers[selectedRadio];
           },
+          selected: selectedRadio == index,
         );
       },
     );

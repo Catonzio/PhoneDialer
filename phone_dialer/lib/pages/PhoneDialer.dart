@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:phone_dialer/helper/CurrentSettings.dart';
 //import 'file:///C:/Users/danil/Projects/flutter/PhoneDialer/phone_dialer/lib/helper/StateHolder.dart';
 import 'package:phone_dialer/helper/StateHolder.dart';
 import 'package:phone_dialer/custom_widgets/CstmStuff.dart';
@@ -22,10 +23,17 @@ class _PhoneDialerState extends State<PhoneDialer> {
   }
 
   @override
+  void dispose() {
+    StateHolder.instance.phoneNumber = controller.text.trim();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     FocusScope.of(context).unfocus();
     return DefaultPage(
       title: "Phone",
+      showSettingsButton: true,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -34,13 +42,14 @@ class _PhoneDialerState extends State<PhoneDialer> {
             //SizedBox(height: 200,),
             Padding(
               child: TextField(
+                showCursor: true,
                 focusNode: AlwaysDisabledFocusNode(),
                 controller: controller,
                 maxLines: 1,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 30),
                 decoration: InputDecoration(
-                    border: InputBorder.none
+
                 ),
               ),
               padding: EdgeInsets.fromLTRB(50, 0, 50, 20),
@@ -111,7 +120,7 @@ class _PhoneDialerState extends State<PhoneDialer> {
   }
 
   Future<void> doCall() async {
-    String number = '4146${controller.text}';
+    String number = '${CurrentSettings.instance.prefix}${controller.text}';
     bool res = await FlutterPhoneDirectCaller.callNumber(number);
   }
 

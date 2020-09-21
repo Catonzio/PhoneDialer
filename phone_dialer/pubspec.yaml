@@ -31,6 +31,8 @@ dependencies:
   permission_handler: ^4.4.0+hotfix.2
   contacts_service: ^0.3.10
   scrollable_positioned_list: ^0.1.7
+  indexed_list_view: ^1.1.5
+
   flutter_phone_direct_caller:
     git:
       url: https://github.com/yanisalfian/flutter-phone-direct-caller.git

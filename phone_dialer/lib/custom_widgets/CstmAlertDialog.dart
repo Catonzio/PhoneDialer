@@ -39,7 +39,7 @@ class CstmAlertDialog extends StatelessWidget {
         content:
         Container(
           width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.13,
+            height: MediaQuery.of(context).size.height * 0.20,
             child: body
         ),
         actions: [

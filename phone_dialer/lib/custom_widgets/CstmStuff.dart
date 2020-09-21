@@ -1,16 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phone_dialer/pages/SettingsPage.dart';
 
 class DefaultPage extends StatelessWidget {
 
   final String title;
   final Widget body;
+  final bool showSettingsButton;
 
   DefaultPage(
     {
       Key key,
       this.title,
-      this.body
+      this.body,
+      this.showSettingsButton
     }
   );
 
@@ -34,6 +37,14 @@ class DefaultPage extends StatelessWidget {
               padding: EdgeInsets.all(2),
             )
         ),
+        actions: [
+          //To check if the settings button should be visualized
+          showSettingsButton == true ?
+          MaterialButton(
+            child: Icon(Icons.settings),
+            onPressed: () => Navigator.of(context).pushNamed(SettingsPage.routeName),
+          ) : Container()
+        ],
         //backgroundColor: Colors.black,
       ),
       body: body,

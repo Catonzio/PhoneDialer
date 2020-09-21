@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:phone_dialer/helper/CurrentSettings.dart';
 import 'package:phone_dialer/pages/PhoneDialer.dart';
 import 'package:phone_dialer/pages/Register.dart';
 import 'package:phone_dialer/helper/StateHolder.dart';
-//import 'file:///C:/Users/danil/Projects/flutter/PhoneDialer/phone_dialer/lib/helper/StateHolder.dart';
-//import 'helper/StateHolder.dart';
+import 'package:phone_dialer/pages/SettingsPage.dart';
+import 'package:phone_dialer/pages/TrialContactsPage.dart';
 import 'pages/ContactsPage.dart';
 
 void main() {
@@ -14,16 +15,19 @@ void main() {
 
 class PageMain extends StatelessWidget {
   static final mainPageKey = new GlobalKey<MainPageState>();
+  static final defaultPrefix = "4146";
 
   @override
   Widget build(BuildContext context) {
     checkPermissions();
     StateHolder.instance.getContacts();
+    CurrentSettings.instance.prefix = defaultPrefix;
     return MaterialApp(
       initialRoute: MainPage.routeName,
       routes: {
         MainPage.routeName: (context) => MainPage(key: mainPageKey),
-        PhoneDialer.routeName: (context) => PhoneDialer()
+        PhoneDialer.routeName: (context) => PhoneDialer(),
+        SettingsPage.routeName: (context) => SettingsPage()
       },
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -82,7 +86,7 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin 
           children: [
             new Register(),
             new PhoneDialer(),
-            new ContactsPage(contacts: StateHolder.instance.contacts,)
+            new TrialContactsPage(contacts: StateHolder.instance.contacts,)
           ],
         ),
         bottomNavigationBar: TabBar(

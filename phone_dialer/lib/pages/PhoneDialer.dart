@@ -120,7 +120,7 @@ class _PhoneDialerState extends State<PhoneDialer> {
   }
 
   Future<void> doCall() async {
-    String number = '${CurrentSettings.instance.prefix}${controller.text}';
+    String number = '${CurrentSettings.instance.prefix}${controller.text},9';
     bool res = await FlutterPhoneDirectCaller.callNumber(number);
   }
 

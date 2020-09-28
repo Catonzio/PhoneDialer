@@ -32,6 +32,8 @@ dependencies:
   contacts_service: ^0.3.10
   scrollable_positioned_list: ^0.1.7
   indexed_list_view: ^1.1.5
+  call_log: ^2.1.0
+
 
   flutter_phone_direct_caller:
     git:

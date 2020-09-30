@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:call_log/call_log.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_dialer/custom_widgets/CstmStuff.dart';
 import 'package:phone_dialer/custom_widgets/LogsListTile.dart';
+import 'package:phone_dialer/helper/StateHolder.dart';
+
+import '../main.dart';
 
 class Register extends StatefulWidget {
 
@@ -34,29 +39,22 @@ class RegisterState extends State<Register> {
               builder: (context, snapshot) {
                 if(snapshot.hasData) {
                   List<CallLogEntry> entries = (snapshot.data as Iterable<CallLogEntry>).toList();
-                  var map = getEntriesForTime(entries);
-                  map.forEach((key, value) {
-                    StringBuffer buffer = StringBuffer();
-                    value.forEach((element) {
-                      buffer.write(" ${element.name}");
-                    });
-                    debugPrint("Key: $key, Value: ${buffer.toString()}");
-                  });
+                  Map<String, List<CallLogEntry>> map = getEntriesForTime(entries);
                   return Expanded(
-                    child: ListView.separated(
-                      itemCount: entries.length,
+                    child: ListView.builder(
+                      itemCount: map.keys.length,
                       itemBuilder: (context, index) {
-                        return LogsListTile(
-                          name: entries[index].name != null ? entries[index].name : "null",
-                          number: entries[index].number,
-                          callType: entries[index].callType,
-                          //date: new DateTime.fromMillisecondsSinceEpoch(entries[index].timestamp)
-                          date: DateTime.now(),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 5,
+                        String date = map.keys.toList()[index];
+                        List<CallLogEntry> logs = map[date];
+                        return Padding(
+                          padding: EdgeInsets.fromLTRB(5, 20, 5, 20),
+                          child: Column(
+                            children: [
+                              Text("$date", style: TextStyle(fontSize: 40),),
+                              SizedBox(height: MediaQuery.of(context).size.height*0.05,),
+                              getLogsButtons(logs)
+                            ],
+                          ),
                         );
                       },
                     )
@@ -99,6 +97,49 @@ class RegisterState extends State<Register> {
 
   getDayFromDate(DateTime date) {
     return "${date.day}/${date.month}/${date.year}";
+  }
+
+  getLogsButtons(List<CallLogEntry> logs) {
+    List<Widget> children = List();
+    logs.forEach((element) {
+      if(element != null && element.name != null && element.name != "null") {
+        children.add(
+            MaterialButton(
+              child: LogsListTile(
+                name: element.name,
+                number: element.number,
+                date: new DateTime.fromMillisecondsSinceEpoch(element.timestamp),
+                callType: element.callType,
+                isLast: logs[logs.length-1] == element,
+                isFirst: logs[0] == element,
+              ),
+              onLongPress: onLongPressed(element),
+            )
+        );
+      }
+    });
+    Widget column = Container(
+      //height: logs.length * MediaQuery.of(context).size.height,
+      //width: MediaQuery.of(context).size.width*0.9,
+      decoration: BoxDecoration(
+          color: Colors.grey[800],
+          border: Border.all(
+            color: Colors.grey[900],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(20))
+      ),
+      child: Column(
+        children: children,
+      ),
+    );
+    return column;
+  }
+
+  onLongPressed(CallLogEntry element) {
+    if(element.number != null && element.number.isNotEmpty) {
+      StateHolder.instance.phoneNumber = element.number;
+      PageMain.mainPageKey.currentState.controller.animateTo(1);
+    }
   }
 
 }

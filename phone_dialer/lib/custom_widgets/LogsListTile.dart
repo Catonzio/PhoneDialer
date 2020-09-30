@@ -8,12 +8,18 @@ class LogsListTile extends StatelessWidget {
   final String number;
   final CallType callType;
   final DateTime date;
+  final BorderRadius radius;
+  final bool isLast;
+  final bool isFirst;
 
   LogsListTile({Key key,
     this.name,
     this.number,
     this.callType,
-    this.date
+    this.date,
+    this.radius,
+    this.isLast,
+    this.isFirst
   });
 
   @override
@@ -27,7 +33,9 @@ class LogsListTile extends StatelessWidget {
           border: Border.all(
             color: Colors.grey[900],
           ),
-          borderRadius: BorderRadius.all(Radius.circular(20))
+          borderRadius: isFirst ? BorderRadius.only(bottomLeft: Radius.zero, bottomRight: Radius.zero, topLeft: Radius.circular(20), topRight: Radius.circular(20))
+              : isLast ? BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20), topLeft: Radius.zero, topRight: Radius.zero)
+              : null
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -37,10 +45,10 @@ class LogsListTile extends StatelessWidget {
             child: Row(
               children: [
                 callType == CallType.incoming ?
-                Icon(Icons.call_made, color: Colors.green, size: 40,)
+                Icon(Icons.call_made, color: Colors.green, size: 30,)
                     :
-                Icon(Icons.call_received, color: Colors.red, size: 40,),
-                Text(name != "null" ? name : "Not saved", style: TextStyle(fontSize: 25),),
+                Icon(Icons.call_received, color: Colors.red, size: 30,),
+                Text(name != "null" ? name : "Not saved", style: TextStyle(fontSize: 20),),
               ],
             ),
             padding: EdgeInsets.fromLTRB(5, 10, 20, 10),

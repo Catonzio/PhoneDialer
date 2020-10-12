@@ -29,25 +29,27 @@ class LogsListTile extends StatelessWidget {
       //padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
       //color: Colors.grey,
       decoration: BoxDecoration(
-        color: Colors.grey[800],
+        color: Colors.grey[900],
           border: Border.all(
-            color: Colors.grey[900],
+            color: Colors.black
           ),
-          borderRadius: isFirst ? BorderRadius.only(bottomLeft: Radius.zero, bottomRight: Radius.zero, topLeft: Radius.circular(20), topRight: Radius.circular(20))
+          borderRadius:
+              isFirst && isLast ? BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20), topRight: Radius.circular(20), topLeft: Radius.circular(20))
+              : isFirst ? BorderRadius.only(bottomLeft: Radius.zero, bottomRight: Radius.zero, topLeft: Radius.circular(20), topRight: Radius.circular(20))
               : isLast ? BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20), topLeft: Radius.zero, topRight: Radius.zero)
               : null
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.start,
+        //crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             child: Row(
               children: [
                 callType == CallType.incoming ?
-                Icon(Icons.call_made, color: Colors.green, size: 30,)
+                Padding(child:  Icon(Icons.call, color: Colors.green, size: 30,), padding: EdgeInsets.fromLTRB(10, 0, 10, 0),)
                     :
-                Icon(Icons.call_received, color: Colors.red, size: 30,),
+                Padding(child: Icon(Icons.call_end, color: Colors.red, size: 30), padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
                 Text(name != "null" ? name : "Not saved", style: TextStyle(fontSize: 20),),
               ],
             ),
@@ -61,7 +63,7 @@ class LogsListTile extends StatelessWidget {
                 Text(dateF, style: TextStyle(fontSize: 15)),
               ],
             ),
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(25, 0, 10, 10),
           ),
         ],
       ),
@@ -75,7 +77,12 @@ class LogsListTile extends StatelessWidget {
     String hour = date.hour.toString();
     String minutes = date.minute.toString();
     String seconds = date.second.toString();
-    return "$day/$month/$year $hour:$minutes:$seconds";
+    //return "$day/$month/$year $hour:$minutes:$seconds";
+    if(hour.length == 1)
+      hour = "0" + hour;
+    if(minutes.length == 1)
+      minutes = "0" + minutes;
+    return "$hour:$minutes";
   }
 
 }

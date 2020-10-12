@@ -31,8 +31,8 @@ class RegisterState extends State<Register> {
       title: "Register",
       body: Container(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             FutureBuilder(
               future: logsEntries,
@@ -47,11 +47,15 @@ class RegisterState extends State<Register> {
                         String date = map.keys.toList()[index];
                         List<CallLogEntry> logs = map[date];
                         return Padding(
-                          padding: EdgeInsets.fromLTRB(5, 20, 5, 20),
+                          padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("$date", style: TextStyle(fontSize: 40),),
-                              SizedBox(height: MediaQuery.of(context).size.height*0.05,),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(25, 0, 0, 5),
+                                child: Text("$date", style: TextStyle(fontSize: 20),)
+                              ),
+                              //SizedBox(height: MediaQuery.of(context).size.height*0.05,),
                               getLogsButtons(logs)
                             ],
                           ),
@@ -96,38 +100,46 @@ class RegisterState extends State<Register> {
   }
 
   getDayFromDate(DateTime date) {
-    return "${date.day}/${date.month}/${date.year}";
+    return "${date.day} ${mapMonth(date.month)} ${date.year}";
+    //return "${date.day}/${date.month}/${date.year}";
+  }
+
+  String mapMonth(int month) {
+    return month == 1 ? "gennaio"
+        : month == 2 ? "febbraio"
+        : month == 3 ? "marzo"
+        : month == 4 ? "aprile"
+        : month == 5 ? "maggio"
+        : month == 6 ? "giugno"
+        : month == 7 ? "luglio"
+        : month == 8 ? "agosto"
+        : month == 9 ? "settembre"
+        : month == 10 ? "ottobre"
+        : month == 11 ? "novembre"
+        : month == 12 ? "dicembre"
+        : "";
   }
 
   getLogsButtons(List<CallLogEntry> logs) {
     List<Widget> children = List();
     logs.forEach((element) {
-      if(element != null && element.name != null && element.name != "null") {
+      if(element != null && element.name != null) {
         children.add(
             MaterialButton(
               child: LogsListTile(
-                name: element.name,
+                name: element.name != "null" ? element.name : "Not saved",
                 number: element.number,
                 date: new DateTime.fromMillisecondsSinceEpoch(element.timestamp),
                 callType: element.callType,
                 isLast: logs[logs.length-1] == element,
                 isFirst: logs[0] == element,
               ),
-              onLongPress: onLongPressed(element),
+              onPressed: onLongPressed(element),
             )
         );
       }
     });
     Widget column = Container(
-      //height: logs.length * MediaQuery.of(context).size.height,
-      //width: MediaQuery.of(context).size.width*0.9,
-      decoration: BoxDecoration(
-          color: Colors.grey[800],
-          border: Border.all(
-            color: Colors.grey[900],
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(20))
-      ),
       child: Column(
         children: children,
       ),
@@ -137,8 +149,8 @@ class RegisterState extends State<Register> {
 
   onLongPressed(CallLogEntry element) {
     if(element.number != null && element.number.isNotEmpty) {
-      StateHolder.instance.phoneNumber = element.number;
-      PageMain.mainPageKey.currentState.controller.animateTo(1);
+      //StateHolder.instance.phoneNumber = element.number;
+      //PageMain.mainPageKey.currentState.controller.animateTo(1);
     }
   }
 

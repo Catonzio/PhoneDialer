@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -7,10 +9,15 @@ import 'package:phone_dialer/pages/Register.dart';
 import 'package:phone_dialer/helper/StateHolder.dart';
 import 'package:phone_dialer/pages/SettingsPage.dart';
 import 'package:phone_dialer/pages/TrialContactsPage.dart';
-import 'pages/ContactsPage.dart';
 
-void main() {
-  runApp(PageMain());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if((await Permission.contacts.request().isGranted) && (await Permission.phone.request().isGranted)) {
+    runApp(PageMain());
+  } else {
+    //SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
+    exit(0);
+  }
 }
 
 class PageMain extends StatelessWidget {
@@ -19,8 +26,6 @@ class PageMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    checkPermissions();
-    StateHolder.instance.getContacts();
     CurrentSettings.instance.prefix = defaultPrefix;
     return MaterialApp(
       initialRoute: MainPage.routeName,
@@ -36,11 +41,6 @@ class PageMain extends StatelessWidget {
         primaryColor: Colors.black
       ),
     );
-  }
-
-  checkPermissions() async {
-    final PermissionHandler permissionHandler = PermissionHandler();
-    await permissionHandler.requestPermissions([PermissionGroup.contacts]);
   }
 }
 
@@ -65,6 +65,8 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin 
   @override
   void initState() {
     controller = new TabController(length: tabs.length, vsync: this, initialIndex: 1);
+    //checkPermissions();
+    StateHolder.instance.getContacts();
     super.initState();
   }
 
@@ -99,6 +101,13 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin 
         ),
       );
   }
+
+  /*checkPermissions() async {
+    final PermissionHandler permissionHandler = PermissionHandler();
+    await permissionHandler.requestPermissions([PermissionGroup.contacts]);
+    if((await permissionHandler.checkPermissionStatus(PermissionGroup.contacts)) == PermissionStatus.granted)
+      debugPrint("Bella zio");
+  }*/
 }
 
 

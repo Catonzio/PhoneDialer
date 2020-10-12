@@ -134,7 +134,7 @@ class RegisterState extends State<Register> {
                 isLast: logs[logs.length-1] == element,
                 isFirst: logs[0] == element,
               ),
-              onPressed: onLongPressed(element),
+              onLongPress: () => onLongPressed(element),
             )
         );
       }
@@ -149,8 +149,9 @@ class RegisterState extends State<Register> {
 
   onLongPressed(CallLogEntry element) {
     if(element.number != null && element.number.isNotEmpty) {
-      //StateHolder.instance.phoneNumber = element.number;
-      //PageMain.mainPageKey.currentState.controller.animateTo(1);
+      //debugPrint("${element.number}");
+      StateHolder.instance.phoneNumber = element.number;
+      PageMain.mainPageKey.currentState.controller.animateTo(1);
     }
   }
 

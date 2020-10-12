@@ -158,29 +158,33 @@ class _ContactsPageState extends State<ContactsPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CstmAlertDialog(
-          continueText: "Ok",
-          dialogTitle: "Select a number",
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: getListOfRadios(numbers),
-              )
-            ],
-          ),
-          pressed: () {
-            StateHolder.instance.phoneNumber = numbers[selectedRadio];
-            Navigator.of(context).pop();
-            PageMain.mainPageKey.currentState.controller.animateTo(1);
+        return StatefulBuilder(
+          builder: (context, StateSetter setState) {
+            return CstmAlertDialog(
+              continueText: "Ok",
+              dialogTitle: "Select a number",
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: getListOfRadios(numbers),
+                  )
+                ],
+              ),
+              pressed: () {
+                StateHolder.instance.phoneNumber = numbers[selectedRadio];
+                Navigator.of(context).pop();
+                PageMain.mainPageKey.currentState.controller.animateTo(1);
+              },
+            );
           },
         );
       }
     );
   }
 
-  getListOfRadios(List<String> numbers) {
+  /*getListOfRadios(List<String> numbers) {
     return ListView.builder(
       itemCount: numbers.length,
       physics: const NeverScrollableScrollPhysics(),
@@ -190,21 +194,50 @@ class _ContactsPageState extends State<ContactsPage> {
           groupValue: selectedRadio,
           title:  Text("${numbers[index]}"),
           activeColor: Colors.green,
-          onChanged: (val) {
-            debugPrint("Radio $val ciao");
-            setState(() {
-              selectedRadio = val;
-            });
-            debugPrint("Selected: $selectedRadio");
-            //StateHolder.instance.phoneNumber = numbers[selectedRadio];
-          },
+          onChanged: (val) => changeRadio(val),
           selected: selectedRadio == index,
         );
       },
     );
   }
 
+  changeRadio(var val) {
+    var x = val;
+    debugPrint("Radio $val ciao");
+    setState(() {
+      selectedRadio = val;
+    });
+    debugPrint("Selected: $selectedRadio");
+    //StateHolder.instance.phoneNumber = numbers[selectedRadio];
+  }*/
 
+  List<Widget> makeRadios() {
+    List<Widget> list = new List<Widget>();
+
+    for (int i = 0; i < 3; i++) {
+      list.add(new Row(
+        children: <Widget>[
+          new Text('Radio $i'),
+          new Radio(value: i, groupValue: selectedRadio, onChanged: (int value) {
+            onChanged(value);
+          })
+        ],
+      ));
+    }
+  }
+  getListOfRadios(List<String> numbers) {
+    return ListView(
+      children: makeRadios(),
+    );
+  }
+
+  void onChanged(int value) {
+    debugPrint("Radio $value ciao");
+    setState(() {
+      selectedRadio = value;
+    });
+    debugPrint("Selected: $selectedRadio");
+  }
 
 
 }

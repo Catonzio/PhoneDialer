@@ -58,6 +58,15 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/missed-call.png
+    - assets/missed-call (1).png
+    - assets/outgoing-call.png
+    - assets/incoming-call.png
+    - assets/outgoing-call (1).png
+    - assets/incoming-call (1).png
+    - assets/incoming-call (2).png
+    - assets/rejected-call.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

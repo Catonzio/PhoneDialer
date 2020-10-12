@@ -24,10 +24,12 @@ class LogsListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(fontSize: 15, color: Colors.grey[400]);
     String dateF = formatDate(date);
     return Container(
       //padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
       //color: Colors.grey,
+      height: MediaQuery.of(context).size.height*0.08,
       decoration: BoxDecoration(
         color: Colors.grey[900],
           border: Border.all(
@@ -39,34 +41,65 @@ class LogsListTile extends StatelessWidget {
               : isLast ? BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20), topLeft: Radius.zero, topRight: Radius.zero)
               : null
       ),
-      child: Column(
-        //mainAxisAlignment: MainAxisAlignment.start,
-        //crossAxisAlignment: CrossAxisAlignment.center,
+      child: Row(
         children: [
-          Padding(
-            child: Row(
-              children: [
-                callType == CallType.incoming ?
-                Padding(child:  Icon(Icons.call, color: Colors.green, size: 30,), padding: EdgeInsets.fromLTRB(10, 0, 10, 0),)
-                    :
-                Padding(child: Icon(Icons.call_end, color: Colors.red, size: 30), padding: EdgeInsets.fromLTRB(10, 0, 10, 0),),
-                Text(name != "null" ? name : "Not saved", style: TextStyle(fontSize: 20),),
-              ],
-            ),
-            padding: EdgeInsets.fromLTRB(5, 10, 20, 10),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              callType == CallType.outgoing ?
+              Padding(child:  Image.asset("assets/outgoing-call (1).png", color: Colors.green, height: 25,), padding: EdgeInsets.fromLTRB(10, 0, 10, 0),)
+              : callType == CallType.incoming ?
+              Padding(child: Image.asset("assets/incoming-call (2).png", color: Colors.red, height: 25), padding: EdgeInsets.fromLTRB(10, 0, 10, 0),)
+              : callType == CallType.missed ?
+              //Padding(child: Icon(Icons.call, color: Colors.red, size: 30), padding: EdgeInsets.fromLTRB(10, 0, 10, 0),)
+              Padding(child: Image.asset("assets/missed-call (1).png", color: Colors.red, height: 25), padding: EdgeInsets.fromLTRB(10, 0, 10, 0),)
+              : callType == CallType.rejected ?
+              Padding(child: Image.asset("assets/rejected-call.png", color: Colors.red, height: 25),  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),)
+                  : Padding(child: Image.asset("assets/missed-call (1).png", color: Colors.red, height: 25),  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),)
+            ],
           ),
-          Padding(
-            child: Row(
-              children: [
-                Text(number, style: TextStyle(fontSize: 15),),
-                Spacer(),
-                Text(dateF, style: TextStyle(fontSize: 15)),
-              ],
-            ),
-            padding: EdgeInsets.fromLTRB(25, 0, 10, 10),
-          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(child: Text(name != "null" ? name : "Not saved", style: TextStyle(fontSize: 20, color: Colors.grey[300]),), padding: EdgeInsets.fromLTRB(0, 0, 0, 5),)
+                ],
+              ),
+              Container(
+                width: MediaQuery.of(context).size.height*0.36,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(number, style: style),
+                        //SizedBox(width: MediaQuery.of(context).size.width * 0.30,),
+                      ],
+                    ),
+                    Spacer(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(dateF, style: style),
+
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          )
         ],
-      ),
+      )
     );
   }
 

@@ -165,6 +165,7 @@ class _TrialContactsPageState extends State<TrialContactsPage> {
           return CstmAlertDialog(
             continueText: "Ok",
             dialogTitle: "Select a number",
+            state: () => onChanged(1),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -184,7 +185,7 @@ class _TrialContactsPageState extends State<TrialContactsPage> {
     );
   }
 
-  getListOfRadios(List<String> numbers) {
+  /*getListOfRadios(List<String> numbers) {
     return ListView.builder(
       itemCount: numbers.length,
       physics: const NeverScrollableScrollPhysics(),
@@ -206,6 +207,35 @@ class _TrialContactsPageState extends State<TrialContactsPage> {
         );
       },
     );
+  }*/
+
+  List<Widget> makeRadios() {
+    List<Widget> list = new List<Widget>();
+
+    for (int i = 0; i < 3; i++) {
+      list.add(new Row(
+        children: <Widget>[
+          new Text('Radio $i'),
+          new Radio(value: i, groupValue: selectedRadio, onChanged: (int value) {
+            onChanged(value);
+          })
+        ],
+      ));
+    }
+    return list;
+  }
+  getListOfRadios(List<String> numbers) {
+    return ListView(
+      children: makeRadios(),
+    );
+  }
+
+  void onChanged(int value) {
+    debugPrint("Radio $value ciao");
+    setState(() {
+      selectedRadio = value;
+    });
+    debugPrint("Selected: $selectedRadio");
   }
 
 
